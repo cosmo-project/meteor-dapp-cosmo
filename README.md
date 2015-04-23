@@ -20,7 +20,7 @@ Start Cosmo using Meteor
     $ cd meteor-dapp-cosmo/app
     $ meteor
 
-Wait for mining, refresh, enjoy!
+Goto http://localhost:3000, enjoy!
 
 ## <a name="functionality"></a> DApp Functionality
 - Deploy and test solidity contracts
