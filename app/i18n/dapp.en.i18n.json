@@ -1,0 +1,53 @@
+{
+	"dapp": {
+		"app": {
+			"title": "cosmo"
+			, "buttons": {
+				"editor": "editor"
+			}
+			, "headers": {
+				"identicon": "Identicon"
+				, "address": "Address"
+				, "balance": "Balance"
+				, "account": "Account"
+				, "solidity": "Solidity Code"
+				, "coinbase": "Coinbase"
+				, "listening": "Listening"
+				, "peerCount": "Peers"
+				, "accountCount": "Accounts"
+				, "blockNumber": "Block"
+				, "defaultGas": "Default Gas"
+				, "defaultBlock": "Default Block"
+				, "mining": "Mining"
+				, "gasPrice": "Gas Price"
+				, "version": "Version"
+				, "client": "Client"
+			}
+			, "copyright": "Copyright © Cosmo 2015. All Rights Reserved."
+		}
+		, "components": {
+			"balance": {
+				"header": "My Balance"
+				, "original": "Original Balance"
+			}
+			, "accounts": {
+				"header": "Accounts"
+				, "description": "These are your Ethereum addresses. The identicons are generated based on the address value. Note, balance is static."			
+			}
+			, "multiplyContract": {
+				"header": "Multiply Contract"
+				, "description": "Create a new contract and interact with it through the api call method. Note, if the multiply result remains zero you may not have enough ETH."
+				, "create": "Create New Contract"
+				, "deployed": "The contract was deployed to this address"
+				, "placeholder": "Number To Multiply"
+			}
+			, "networkHealth": {
+				"header": "Network Health"			
+			}
+		}
+		, "editor": {
+			"title": "editor"
+			, "defaultName": "editor"
+		}
+	}
+}

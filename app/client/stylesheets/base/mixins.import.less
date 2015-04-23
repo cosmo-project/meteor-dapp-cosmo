@@ -1,0 +1,314 @@
+// Bootstrap Mixins
+@import "./lib/bootstrap/mixins.import.less";
+
+.navbar {
+    .navbar-header {
+        width: 300px;
+        min-width: 300px;
+        line-height: 50px;
+        
+        small {
+            color: #aaa;
+        }
+    }
+}
+
+// Custom Panel Modification Mixins
+.panel-dapp{
+	.panel-heading{
+		font-size: @font-size-h5;
+	}
+
+	.table{
+		thead{ 
+			td{	
+				font-weight: bold;
+			}
+		}
+	}
+}
+
+// Custom Class for Health Panel
+.panel-health{
+	.table{
+		td{
+			padding: 10px;
+		}
+	}
+
+	.heading{
+		text-align: right;
+		font-weight: bold;
+	}
+}
+
+.panel-accounts {
+    min-width: 270px;
+    
+    .table{
+        td{
+            padding: 3px;
+            border: none;
+            line-height: 22px;
+            height: 22px;
+            border-bottom: 1px solid #aaa;
+        }
+    }
+    
+    input {
+        background: none;
+        border: none;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        display: inline-block;
+        white-space: nowrap; 
+        padding: 0px;
+        outline: none;
+        line-height: 12px;
+        box-shadow: none;
+        height: 14px;
+    }
+    
+    .dapp-small {
+        width: 22px;
+        height: 22px;
+        margin-left: 10px;
+    }
+    
+    .etherAmount {
+        max-width: 75px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        display: inline-block;
+        white-space: nowrap; 
+    }
+}
+
+.panel-source {
+    min-width: 300px;
+    
+    .panel-heading {
+        height: auto;
+        min-height: 20px;
+        
+        span {
+            float: right; 
+            
+            line-height: 18px;
+        }
+    }
+    
+    #deployGas {
+        width: 60px; 
+        
+        bacgkround: none; 
+        
+        background-color: rgba(0,0,0,0); 
+        
+        border: none; 
+        
+        outline: none; 
+        
+        color: #333; 
+        
+        text-align: right; 
+        
+        margin-right: 10px;
+    }
+    
+    #deploy {
+        margin-top: -6px; 
+        
+        margin-right: 7px;
+    }
+    
+    #auto {
+        margin-top: -6px; 
+        
+        margin-right: -11px;
+    }
+    
+    #refresh {
+        margin-top: -6px;  
+        
+        margin-right: -11px; 
+        
+        margin-left: 17px;
+    }
+}
+
+.panel-contract {
+    h4 {
+        margin-top: 0px; 
+        
+        padding-top: 0px; 
+        
+        text-transform: none;
+    }
+    
+    pre {
+        height: 200px; 
+        
+        max-height: 200px; 
+        
+        color: #000; 
+        
+        padding-top: -20px; 
+        
+        border: 0px; 
+        
+        margin-bottom: 0px;
+        
+        white-space: pre-wrap; 
+        
+        white-space: -moz-pre-wrap;
+        
+        white-space: -pre-wrap;
+        
+        white-space: -o-pre-wrap;
+        
+        word-wrap: break-word;  
+    }
+    
+    input {
+        margin-bottom: 10px;
+        
+        text-overflow: ellipsis;
+        overflow: hidden;
+        display: inline-block;
+        white-space: nowrap; 
+    }
+    
+    textarea {
+        margin-bottom: 10px;
+        
+        text-overflow: ellipsis;
+        overflow: hidden;
+        display: inline-block;
+        white-space: nowrap; 
+    }
+}
+    
+.panel-methods {
+    button {
+        float: right;
+        
+        margin-top: 10px;
+    }
+    
+    #method {
+        margin-bottom: 10px; 
+        
+        width: 69%; 
+        
+        margin-left: 2%;
+    }
+    
+    #methodFrom {
+        float: left; 
+        
+        width: 29%; 
+        
+        margin-bottom: 10px; 
+        
+        margin-right: 2%;
+    }
+    
+    #methodGas {
+        color: #333; 
+        
+        float: left; 
+        
+        width: 49%; 
+        
+        margin-right: 2%;
+    }
+    
+    #methodValue {
+        color: #333; 
+        
+        float: left; 
+        
+        width: 49%;
+    }
+}
+
+.panel-console {
+    min-width: 250px;
+    
+    pre {
+        padding-top: -20px;
+        
+        min-height: 300px;
+        
+        white-space: pre-wrap; 
+        
+        white-space: -moz-pre-wrap;
+        
+        white-space: -pre-wrap;
+        
+        white-space: -o-pre-wrap;
+        
+        word-wrap: break-word;  
+    }
+    
+    .panel-body {
+        margin-bottom: 0px; 
+        
+        border: 0px; 
+        
+        color: #000; 
+        
+        max-height: 500px;    
+    }
+    
+    #consoleClear {        
+        margin-top: -6px; 
+        
+        margin-right: -11px;        
+    }
+    
+    .panel-heading {
+        span {            
+            float: right;
+        }
+    }
+}
+
+.panel-dapp {
+    #editor {
+        width: 100%;
+        min-height: 800px;
+        font-size: 15px;
+    }
+}
+
+.panel-diagnostics {
+    display: block; 
+        
+    text-overflow: ellipsis;
+    
+    overflow: hidden;
+    
+    display: inline-block;
+    
+    white-space: nowrap; 
+    
+    position: fixed; 
+    
+    z-index: 10000; 
+    
+    bottom: 0px; 
+    
+    left: 5%; 
+    
+    margin-bottom: 0px; 
+    
+    width: 90%;
+    
+    .table {
+        min-height: 20px; 
+        
+        font-size: 11px;
+    }
+}

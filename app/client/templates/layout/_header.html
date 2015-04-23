@@ -1,0 +1,13 @@
+<template name="layout_header">
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/">{{{i18n 'dapp.app.title'}}} <i class="glyphicon glyphicon-th text-danger"></i></a> <small>solidity realtime dev environment</small>
+			</div>
+
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="{{ pathFor 'view2' }}">{{{i18n 'dapp.app.buttons.editor'}}}</a></li>
+			</ul>
+		</div>
+	</nav>
+</template>

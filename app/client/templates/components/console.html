@@ -1,0 +1,6 @@
+<template name="components_console">
+    <div class="panel panel-default panel-dapp panel-console">
+        <div class="panel-heading">Console <span><button class="btn btn-default btn-sm" id="consoleClear">Clear</button></span></div>
+        <pre class="panel-body" id="consolePre">{{$.Session.get 'consoleData'}}</pre>
+    </div>
+</template>

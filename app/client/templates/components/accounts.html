@@ -1,0 +1,12 @@
+<template name="components_accounts">
+	<div class="panel panel-default panel-dapp panel-accounts">
+	  <div class="panel-heading">{{i18n 'dapp.components.accounts.header'}}</div>
+	  <table class="table table-bordered panel-body">
+		<thead><tr><td></td><td>#</td><td>{{i18n 'dapp.app.headers.address'}}</td></tr></thead>
+		  <tbody>{{#each accounts}}
+		  	<tr><td>{{> dapp_identicon identity=address class="dapp-small"}}</td><td>{{number}}</td><td> <input type="text" value="{{address}}" placeholder="Address"  onfocus="this.select();" onmouseup="return false;" class="form-control"></td><td></td></tr>
+		  {{/each}}
+          </tbody>
+	  </table>
+	</div>
+</template>

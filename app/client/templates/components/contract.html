@@ -1,0 +1,21 @@
+<template name="components_contract">
+    <div class="panel panel-default panel-dapp panel-contract">
+        <div class="panel-body">
+            {{#if $.Session.equals 'contractName' ''}}{{else}}
+                <h4>{{$.Session.get 'contractName'}}
+</h4>
+            {{/if}}          
+            <input type="text" class="form-control" onfocus="this.select();" onmouseup="return false;" value="{{$.Session.get 'contractAddress'}}" placeholder="address" style="width: 49%; float: left; margin-right: 2%;" title="contract address">      
+            <input type="text" class="form-control" onfocus="this.select();" onmouseup="return false;" value="{{$.Session.get 'hex'}}" placeholder="bytecode" style="width: 49%; float: left; " title="contract bytecode">
+            <textarea class="form-control" onfocus="this.select();" onmouseup="return false;" style="height: 45px;" placeholder="JSON ABI" title="contract JSON interface">{{$.Session.get 'abi'}}</textarea>     
+            <input type="text" class="form-control" onfocus="this.select();" onmouseup="return false;" value="{{$.Session.get 'contractInterface'}}" placeholder="solidity interface" title="contract solidity interface">
+            {{#if $.Session.equals 'contractAddress' ''}}
+            {{else}}
+            balance: <strong>{{$.Session.get 'contractBalance'}}</strong>  ethers
+            {{/if}}
+            <strong style="margin-left: 10px;">{{$.Session.get 'contractBytes'}}</strong> bytes  
+            <small class=" text-muted" data-toggle="collapse" data-target="#output" style="float: right; margin-top: 3px; cursor: pointer;">output</small>
+        </div>
+        <pre id="output" class="panel-body collapse in">{{$.Session.get 'output'}}</pre>
+    </div>
+</template>

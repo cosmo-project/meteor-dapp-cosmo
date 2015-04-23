@@ -1,0 +1,64 @@
+<template name="components_methods">
+    <div class="panel panel-default panel-dapp panel-methods">
+        <div class="panel-heading">Methods</div>
+        <div class="panel-body">                
+            <select id="methodFrom" class="form-control">
+                <option value="">from</option>
+                {{#each accounts}}
+                    <option value="{{address}}">{{short}}</option>  
+                {{/each}}
+            </select>
+
+            <select id="method" class="selectpicker form-control">
+                <optgroup label="Method">
+                    <option value="blank">Empty</option>
+                </optgroup>
+                <optgroup label="Call">
+                {{#each $.Session.get 'contractMethods'}}
+                    {{#if callable}} 
+                        <option value="{{index}}">{{name}}</option>
+                    {{/if}}
+                {{/each}}
+                </optgroup>
+                <optgroup label="Transact">
+                {{#each $.Session.get 'contractMethods'}}
+                    {{#if transactable}} 
+                        <option value="{{index}}">{{name}}</option>
+                    {{/if}}
+                {{/each}}
+                </optgroup>
+            </select>
+            <input type="text" placeholder="gas" id="methodGas" class="form-control" />
+            <input type="text" placeholder="value" class="form-control" id="methodValue" />
+            {{#with method}}
+                {{#if hasInputs}}
+                <br /><br />
+                    <h5>inputs:</h5>
+
+                    {{#each inputs}}
+                        {{#if isBool}}
+                        <select id="input_{{name}}" class="form-control">
+                            <option value="0">{{name}}</option>          
+                            <option value="0">true</option>          
+                            <option value="1">false</option>                
+                        </select><br />
+                        {{else}}
+                            {{#if isInt}}
+                                <input type="number" id="input_{{name}}" placeholder="{{name}}" class="form-control" /><br />
+                            {{else}}
+                                {{#if isAddress}}
+                                <input type="text" id="input_{{name}}" placeholder="{{name}}" class="form-control" /><br />
+                                {{else}}
+                                <input type="text" id="input_{{name}}" placeholder="{{name}}" class="form-control" /><br />
+                                {{/if}}
+                            {{/if}}
+                        {{/if}}
+                    {{/each}}                
+                {{/if}}
+            {{/with}}
+            <hr />
+            <button class="btn btn-default btn-sm" style="margin-left: 10px;" id="methodTransact">Transact <i class="glyphicon glyphicon-download-alt text-success"></i></button>
+            <button class="btn btn-default btn-sm text-info" id="methodCall">Call <i class="glyphicon glyphicon-earphone"></i></button>
+        </div>
+    </div>
+</template>

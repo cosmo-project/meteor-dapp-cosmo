@@ -1,0 +1,17 @@
+<template name="views_editor">
+    <div class="row-fluid">
+        <div class="col-md-6">
+            {{> components_source}}
+        </div>
+        <div class="col-md-3">
+            {{> components_contract}}
+            {{> components_methods}}
+        </div>
+        <div class="col-md-3">          
+            {{> components_settings}}
+            {{> components_accounts}}
+            {{> components_console}}
+        </div>
+    </div>
+    {{> components_diagnostics}}
+</template>
