@@ -42,5 +42,8 @@ Original compiler build by Gav's Solidity CPP and Chriseth's <a href="http://chr
 
 ## <a name="todo"></a> TODO
 - Fix speed issue with compiling
+- Clean up compiler parsing
+- Better i18n
+- Upgrade SOL compiler to new SOLJSON.js
 - Allow DApp to boot even without no GETH connection
 - Deploy on meteor.com
