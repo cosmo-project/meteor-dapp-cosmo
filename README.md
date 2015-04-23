@@ -1,5 +1,5 @@
 # meteor-dapp-cosmo
-A MeteorJS realtime solidity dev. environment DApp.
+A MeteorJS realtime solidity development environment DApp.
 
 <img src="app/public/images/screen.jpg" />
 
@@ -15,7 +15,7 @@ Start a local geth node:
 
     $ geth --rpc --rpcaddr="localhost" --mine --unlock=primary --rpcport="8080" --rpccorsdomain="http://localhost:3000" --loglevel=5 --maxpeers=0
 
-Start your app using meteor
+Start Cosmo using Meteor
 
     $ cd meteor-dapp-cosmo/app
     $ meteor
@@ -23,10 +23,11 @@ Start your app using meteor
 Wait for mining, refresh, enjoy!
 
 ## <a name="functionality"></a> DApp Functionality
-- deploy solidity contracts
-- vet contracts using method calls/transactions
-- switch between auto and manual compiling mode
-- see your node information in realtime
+- Deploy and test solidity contracts
+- Vet contracts using function calls/transactions
+- Switch between auto and manual compiling mode
+- See your node information in realtime
+- Immediate JSON contract descriptions
 
 ## <a name="layout"></a> Page Layout
 - Source code editor (left column)
@@ -35,7 +36,7 @@ Wait for mining, refresh, enjoy!
 
 ## <a name="about"></a> About
 
-This DApp will help solidity developers, built well vetted contracts in realtime with a light and simple development environment.
+This DApp will help developers code in solidity, so they can build solid contracts in realtime that are thoroughly vetted.
 
 Original compiler build by Gav's Solidity CPP and Chriseth's <a href="http://chriseth.github.io/cpp-ethereum/">Realtime Browser Compiler</a>.
 
