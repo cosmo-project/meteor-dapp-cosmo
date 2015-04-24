@@ -3,7 +3,7 @@ A MeteorJS realtime solidity development environment DApp.
 
 <img src="app/public/images/screen.jpg" />
 
-** Please note that this DApp is still in Alpha (still working out the bugs and speed issues).
+** Please note that this DApp is still in Alpha (still working out the bugs). Compiler upgrade coming soon!
 
 ## <a name="installation"></a> Installation
 
