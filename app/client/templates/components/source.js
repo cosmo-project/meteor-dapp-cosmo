@@ -18,7 +18,7 @@ Template['components_source'].created = function(){
     
     var count = 0;
     this.runtimeInitInterval = Meteor.setInterval(function() {
-        if(count == 0)
+        if(count >= 1)
             Cosmo.onAceUpdate({});
         
         if(Cosmo.runtimeInit) {

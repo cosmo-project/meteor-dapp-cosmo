@@ -238,14 +238,18 @@ Cosmo.onAceUpdate = function(e) {
     try {
         data = $.parseJSON(Cosmo.compileJSON(input, 1));
     } catch (exception) {
-        Cosmo.output("Uncaught JavaScript Exception:\n" + exception + '\n\n' + ' Chrome/Chromium currently reports "Uncaught JavaScript Exception". To work around this problem, enable the debug console (Ctrl+Shift+i) and reload.');
+        Cosmo.output("Uncaught JavaScript Exception:\n" + exception + '\n\n' + 'Note, Chrome/Chromium currently reports "Uncaught JavaScript Exception". To work around this problem, enable the debug console (Ctrl+Shift+i) and reload.');
         return;
     }
     
-    if (data['error'] !== undefined)
+    if (data['error'] !== undefined) {
         Cosmo.output(data['error']);
-    else
+        
+        if(String(data['error']).indexOf('during compilation') !== -1)
+        Cosmo.output(data['error'] + ' \n\nNote, Chrome/Chromium currently reports "Unknown exception during compilation.". To work around this problem, enable the debug console (Ctrl+Shift+i) and reload.');
+    } else{ 
         Cosmo.renderContracts(data, input);
+    }
 };
 
 /*Cosmo.onAceUpdate = function(e) {
