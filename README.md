@@ -41,9 +41,6 @@ This DApp will help developers code in solidity, so they can build solid contrac
 Cosmo uses Chriseth's <a href="http://chriseth.github.io/cpp-ethereum/">Realtime Browser Compiler</a>.
 
 ## <a name="todo"></a> TODO
-- Fix speed issue with compiling
-- Clean up compiler parsing
 - Better i18n
-- Upgrade SOL compiler to new SOLJSON.js
 - Allow DApp to boot even without no GETH connection
 - Deploy on meteor.com

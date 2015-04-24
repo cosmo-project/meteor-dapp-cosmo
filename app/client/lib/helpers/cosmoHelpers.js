@@ -38,6 +38,30 @@ The current contract address.
 Cosmo.address;
 
 /**
+The main ACE editor object.
+
+@var (editorObject)
+**/
+
+Cosmo.editorObject;
+
+/**
+On ace editor ready.
+
+@var (editorReady)
+**/
+
+Cosmo.runtimeInit = false;
+
+/**
+The previous input of the ace editor.
+
+@var (previousInput)
+**/
+
+Cosmo.previousInput = '';
+
+/**
 Deploy the contract live on the blockchain.
 
 @method (deploy)
@@ -51,29 +75,180 @@ Cosmo.deploy = function(contractAbi, transactionOptions){
     this.address = web3.eth.sendTransaction(transactionOptions);
     this.contract = new this.ContractObject(this.address);
     return this.address;
-}
+};
 
 /**
-The main ACE editor object.
+Compile JSON data from contract.
 
-@var (editorObject)
-**/
-
-Cosmo.editorObject;
-
-/**
-Compile string input into interface and bytecode.
-
-@method (compileString)
+@method (compileJSON)
 @param {String} the input solidity code string to be compiled.
 **/
 
-Cosmo.compileString = function(input){ 
-    var compiler = Module.cwrap("compileString", "string", ["string", "number"]);
+Cosmo.compileJSON = function(input){ 
+    var compiler = Module.cwrap("compileJSON", "string", ["string", "number"]);
     return compiler(input, 1);
 }
 
+/**
+The output that will goto the console output window.
+
+@method (output)
+@param {String} the output string.
+**/
+
+Cosmo.output = function(o) {
+    Session.set('output', String(o));
+};
+
+/**
+Render contracts from JSON.
+
+@method (renderContracts)
+@param {JSON} the JSON objects containing the contracts.
+@param {String} the raw string containing the objects.
+**/
+
+Cosmo.renderContracts = function(data, source) {
+    // Get last contract name.
+    var craw_1 = source.lastIndexOf("contract");
+    var craw_2 = source.indexOf("{", craw_1);
+    var craw_3 = source.substr(craw_1 + 8, craw_2 - craw_1);
+    var craw_4 = craw_3.trim().split(" ");
+    var contractName = craw_4[0].trim();
+    var contract = data.contracts[contractName];
+    var contractMethods;
+    
+    if(_.isUndefined(contract) || _.isEmpty(contractName))
+        return;
+
+    Session.set("contractName", contractName);
+    Session.set('contractBytes', (contract.bytecode.length / 2));
+    Session.set("hex", contract.bytecode);
+    Session.set("abi", contract.interface);
+    Session.set('contractInterface', contract.solidity_interface);
+
+    try{
+        contractMethods = JSON.parse(contract.interface);
+        Session.set("contractAbi", contractMethods);
+    }catch(exception){
+        return;
+    }
+    
+    Cosmo.output('===== ' + contractName + ' =====' + 
+                 '\nInterface: \n' + contract.solidity_interface + 
+                 '\n\n Hex: \n' + contract.bytecode + 
+                 '\n\n Opcodes: \n' + contract.opcodes);
+
+    _.each(contractMethods, function(item, index){
+        item.index = index;
+        item.hasInputs = false;
+        item.hasOutputs = false;
+        item.callable = false;
+        item.transactable = false;
+        item.nameClean = item.name;
+
+        if(item.outputs.length > 0)
+            item.callable = true;
+            item.hasOutputs = true;
+
+        if(item.outputs.length == 0)
+            item.transactable = true;
+
+        if(item.inputs.length > 0)
+            item.hasInputs = true;
+
+        item.arguments = [];
+
+        _.each(item.inputs, function(input, inputIndex){
+            input.kind = "";
+            input.isArray = "";
+            input.isInt = false;
+            input.isBytes = false;
+            input.isBool = false;
+            input.isAddress = false;
+            input.isHash = false;
+            item.arguments.push(input.type);
+            
+            if(_.isEmpty(input.name))
+                input.name = input.type;
+
+            if(input.type.indexOf("int") !== -1){
+                input.kind = "int";
+                input.isInt = true;
+            }
+
+            if(input.type.indexOf("bytes") !== -1){
+                input.kind = "bytes";
+                input.isBytes = true;
+            }
+
+            if(input.type.indexOf("string") !== -1){
+                input.kind = "string";
+                input.isBytes = true;
+            }
+
+            if(input.type.indexOf("hash") !== -1){
+                input.kind = "hash";
+                input.isHash = true;
+            }
+
+            if(input.type.indexOf("address") !== -1){
+                input.kind = "address";  
+                input.isAddress = true;     
+            }
+
+            if(input.type.indexOf("bool") !== -1){
+                input.kind = "bool";
+                input.isBool = true;
+            }
+        });
+
+        if(item.inputs.length > 0)
+            item.name = item.name + "(" + String(item.arguments) + ")";
+    });
+
+    Session.set('contractMethods', contractMethods);
+    var selectedMethod = Session.get('method');
+
+    if(!_.isEmpty(selectedMethod))
+        Session.set('method', contractMethods[selectedMethod.index]);
+};
+
+/**
+Turn Solidity code into interface.
+
+@method (onAceUpdate)
+@param {Object} event object that is passed on ace update.
+**/
+
 Cosmo.onAceUpdate = function(e) {
+    var editor = Cosmo.editorObject;
+    var input = editor.getValue();
+    var data;
+        
+    if(!Session.get('auto') && !Session.get('refresh'))
+        return;
+    
+    if(!Cosmo.runtimeInit)
+        return;
+    
+    if (input == Cosmo.previousInput)
+        return;
+    
+    try {
+        data = $.parseJSON(Cosmo.compileJSON(input, 1));
+    } catch (exception) {
+        Cosmo.output("Uncaught JavaScript Exception:\n" + exception + '\n\n' + ' Chrome/Chromium currently reports "Uncaught JavaScript Exception". To work around this problem, enable the debug console (Ctrl+Shift+i) and reload.');
+        return;
+    }
+    
+    if (data['error'] !== undefined)
+        Cosmo.output(data['error']);
+    else
+        Cosmo.renderContracts(data, input);
+};
+
+/*Cosmo.onAceUpdate = function(e) {
     var editor = Cosmo.editorObject;
     var input = editor.getValue();
     try {
@@ -297,4 +472,4 @@ Cosmo.onAceUpdate = function(e) {
     } catch (exception) {
         Session.set('output', "Uncaught JavaScript Exception:\n" + exception + '\n\n' + ' Chrome/Chromium currently reports "Uncaught JavaScript Exception". To work around this problem, enable the debug console (Ctrl+Shift+i) and reload.');
     }
-};
+};*/

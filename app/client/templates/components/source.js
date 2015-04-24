@@ -11,6 +11,23 @@ The accounts template
 @constructor
 */
 
+Template['components_source'].created = function(){    
+    Module['onRuntimeInitialized'] = function() {
+        Cosmo.runtimeInit = true;
+    };
+    
+    var count = 0;
+    this.runtimeInitInterval = Meteor.setInterval(function() {
+        if(count == 0)
+            Cosmo.onAceUpdate({});
+        
+        if(Cosmo.runtimeInit) {
+            count ++;
+            return;
+        }
+    }, 1 * 2000);
+};
+
 Template['components_source'].helpers({
 	/**
     On Ace editor render.
