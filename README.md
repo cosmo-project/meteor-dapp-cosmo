@@ -38,7 +38,7 @@ Goto http://localhost:3000, enjoy!
 
 This DApp will help developers code in solidity, so they can build solid contracts in realtime that are thoroughly vetted.
 
-Original compiler build by Gav's Solidity CPP and Chriseth's <a href="http://chriseth.github.io/cpp-ethereum/">Realtime Browser Compiler</a>.
+Cosmo uses Chriseth's <a href="http://chriseth.github.io/cpp-ethereum/">Realtime Browser Compiler</a>.
 
 ## <a name="todo"></a> TODO
 - Fix speed issue with compiling
