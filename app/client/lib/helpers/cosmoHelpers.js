@@ -138,6 +138,9 @@ Cosmo.renderContracts = function(data, source) {
                  '\nInterface: \n' + contract.solidity_interface + 
                  '\n\n Hex: \n' + contract.bytecode + 
                  '\n\n Opcodes: \n' + contract.opcodes);
+    
+    if(!_.isArray(contractMethods))
+        return;
 
     _.each(contractMethods, function(item, index){
         item.index = index;
@@ -146,7 +149,10 @@ Cosmo.renderContracts = function(data, source) {
         item.callable = false;
         item.transactable = false;
         item.nameClean = item.name;
-
+        
+        if(!_.isArray(item.outputs))
+            return;
+            
         if(item.outputs.length > 0)
             item.callable = true;
             item.hasOutputs = true;
