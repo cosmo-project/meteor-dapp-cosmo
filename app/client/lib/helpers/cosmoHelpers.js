@@ -1,3 +1,5 @@
+window.onerror = function() { debugger; }
+
 /**
 Helper functions
 
@@ -28,6 +30,27 @@ The Cosmo contract instance.
 **/
 
 Cosmo.contract;
+
+/**
+If Cosmo is connected to Web3.
+
+@method (isConnected)
+**/
+
+Cosmo.isConnected = function(){
+    if(Session.get('connected'))
+        return true;
+};
+
+/**
+Tailors web3 object for session data.
+
+@var (web3)
+**/
+
+Cosmo.web3 = function(){
+    return Session.get('web3');
+};
 
 /**
 The current contract address.
@@ -167,7 +190,7 @@ Cosmo.renderContracts = function(data, source) {
 
         _.each(item.inputs, function(input, inputIndex){
             input.kind = "";
-            input.isArray = "";
+            input.isArray = false;
             input.isInt = false;
             input.isBytes = false;
             input.isBool = false;
@@ -177,6 +200,9 @@ Cosmo.renderContracts = function(data, source) {
             
             if(_.isEmpty(input.name))
                 input.name = input.type;
+            
+            if(input.type.indexOf("[") !== -1 && input.type.indexOf("]") !== -1) // TODO more support to come..
+                input.isArray = true;
 
             if(input.type.indexOf("int") !== -1){
                 input.kind = "int";

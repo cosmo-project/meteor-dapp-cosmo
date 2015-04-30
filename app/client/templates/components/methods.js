@@ -29,19 +29,22 @@ Template['components_methods'].helpers({
     */
     
 	'accounts': function(){
-        var accounts_arr = [];
+        if(!Cosmo.isConnected())
+            return [];
         
-        _.each(web3.eth.accounts, function(account, index){
+        var accounts_arr = [];
+
+        _.each(Cosmo.web3().accounts, function(account, index){
             var account_object = {
                 index: index,
                 address: account,
                 short: account.substr(0, 9) + ".."
             };
-            
+
             accounts_arr.push(account_object);
         });
-        
-		return accounts_arr;
+
+        return accounts_arr;
 	},
 });
 
@@ -83,8 +86,8 @@ Template['components_methods'].events({
             return;
         
         var from = $('#methodFrom').val();
-        var gas = $('#methodGas').val();
-        var value = $('#methodValue').val();
+        var gas = parseInt($('#methodGas').val());
+        var value = parseInt($('#methodValue').val());
         var consoleObject = Session.get('consoleData');
         var call = "";
 
@@ -92,7 +95,7 @@ Template['components_methods'].events({
             from = web3.eth.accounts[0];
 
         if(gas == "" || gas == 0)
-            gas = 9000000;
+            gas = 900000;
         
         if(_.isEmpty(value))
             value = 0;
@@ -141,7 +144,7 @@ Template['components_methods'].events({
         if(_.isEmpty(from))
             from = web3.eth.accounts[0];
         
-        if(gas == 0) {
+        if(gas == 0 || _.isEmpty(gas) || gas == NaN) {
             transactionOptions.gas = 1800000;
             transactionOptions.gasPrice = web3.eth.gasPrice;
         }
@@ -160,6 +163,9 @@ Template['components_methods'].events({
         var methodArguments = [];        
         _.each(methodObject.inputs, function(argumentRaw, index){
             var arg = $('#input_' + argumentRaw.name).val();
+            
+            if(argumentRaw.isArray)
+                arg = arg.split(',');
             
             methodArguments.push(arg);
         });

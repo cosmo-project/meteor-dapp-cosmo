@@ -1,5 +1,6 @@
 <template name="components_settings">
-    <div class="panel panel-default panel-dapp">
-        <div class="panel-body">rpc provider: <strong>http://localhost:8080</strong> <br /> <small class="text-muted">{{{i18n 'dapp.app.copyright'}}}</small></div>
+    <div class="panel panel-default panel-dapp panel-settings">
+        <div class="panel-body">rpc provider: <strong><input type="text" value="http://localhost:8080" placeholder="Address" id="rpcProvider"></strong> <br /> <small class="text-muted">{{{i18n 'dapp.app.copyright'}}}</small></div>
+        <button class="btn btn-default btn-sm" style="margin-left: 10px; margin-top: 0px; margin-bottom: 10px;" id="connect">{{#if $.Session.get 'connected'}}Disconnect <i class="glyphicon glyphicon-off text-danger"></i>{{else}}Connect <i class="glyphicon glyphicon-off text-info"></i>{{/if}}</button>
     </div>  
 </template>

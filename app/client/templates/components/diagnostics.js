@@ -13,13 +13,16 @@ The accounts template
     
 Template['components_diagnostics'].created = function() {
     this.updateBalance = Meteor.setInterval(function() {
+        if(!Cosmo.isConnected())
+            return;
+            
         var coinbase = web3.eth.coinbase;
         var balance = web3.eth.getBalance(coinbase);
         var blockNumber = web3.eth.blockNumber;
 
         Session.set("balance", balance.toString(10));
         Session.set("blockNumber", blockNumber);
-    }, 1 * 1000);
+    }, 1 * 10000);
 };
 
 Template['components_diagnostics'].helpers({
@@ -30,7 +33,7 @@ Template['components_diagnostics'].helpers({
     */
     
 	'accountCount': function(){
-		return web3.eth.accounts.length;
+		return Cosmo.web3().accounts.length;
 	},  
     
 	/**
@@ -40,7 +43,7 @@ Template['components_diagnostics'].helpers({
     */
     
 	'web3Exists': function(){
-		return (_.isObject(web3) ? 'True' : 'False');
+		return (!_.isEmpty(Cosmo.web3()) ? 'True' : 'False');
 	},
     
 	/**
@@ -60,7 +63,7 @@ Template['components_diagnostics'].helpers({
     */
     
 	'coinbase': function(){
-		return web3.eth.coinbase.substr(0, 9);
+		return String(Cosmo.web3().coinbase).substr(0, 9);
 	},
 
 	/**
@@ -70,7 +73,7 @@ Template['components_diagnostics'].helpers({
     */
     
 	'listening': function(){
-		return (_.isUndefined(web3.net) ? '--' : web3.net.listening);
+		return Cosmo.web3().listening;
 	},
 
 	/**
@@ -80,7 +83,7 @@ Template['components_diagnostics'].helpers({
     */
     
 	'peerCount': function(){
-		return (_.isUndefined(web3.net) ? '--' : web3.net.peerCount);
+		return Cosmo.web3().peerCount;
 	},
 
 	/**
@@ -90,7 +93,7 @@ Template['components_diagnostics'].helpers({
     */
     
 	'gasPrice': function(){
-		return web3.eth.gasPrice;
+		return Cosmo.web3().gasPrice;
 	},
 
 	/**
@@ -100,7 +103,7 @@ Template['components_diagnostics'].helpers({
     */
     
 	'version': function(){
-		return web3.version.api;
+		return Cosmo.web3().version;
 	},
 
 	/**
@@ -109,8 +112,8 @@ Template['components_diagnostics'].helpers({
     @method (client)
     */
     
-	'client': function(){
-		return web3.version.client;
+	'client': function(){        
+		return Cosmo.web3().client;
 	},
 
 	/**
@@ -120,7 +123,7 @@ Template['components_diagnostics'].helpers({
     */
     
 	'defaultBlock': function(){
-		return web3.eth.defaultBlock;
+		return Cosmo.web3().defaultBlock;
 	},
 
 	/**
@@ -140,6 +143,6 @@ Template['components_diagnostics'].helpers({
     */
     
 	'mining': function(){
-		return web3.eth.mining;
+		return Cosmo.web3().mining;
 	},
 });

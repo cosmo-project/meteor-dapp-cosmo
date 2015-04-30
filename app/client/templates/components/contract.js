@@ -21,5 +21,5 @@ Template['components_contract'].created = function() {
 
             Session.set("contractBalance", web3.fromWei(balance, 'ether').toString(10));
         }
-    }, 1 * 3000);
+    }, 1 * 10000);
 };

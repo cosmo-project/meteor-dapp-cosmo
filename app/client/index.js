@@ -11,9 +11,20 @@ if(!LocalStore.get('etherUnit'))
 
 // Set Session default values for components
 if (Meteor.isClient) {
+	Session.setDefault('connected', false);
 	Session.setDefault('balance', 0);
 	Session.setDefault('blockNumber', 0);
     Session.setDefault("output", "");
+    Session.setDefault("web3", {
+        coinbase: '0x0',
+        listening: false,
+        peerCount: 0,
+        accounts: [],
+        gasPrice: 0,
+        version: 'unknown',
+        client: 'unknown',
+        mining: false
+    });
     Session.setDefault("hex", "");
     Session.setDefault("abi", "");
     Session.setDefault("auto", true);
@@ -26,7 +37,6 @@ if (Meteor.isClient) {
     Session.setDefault("contractMethods", []);
     Session.setDefault("contractBalance", 0);
 	Session.setDefault('contractBytes', 0);
-    
     Cosmo.output('If your using Firefox, you must be connected to a geth node in order to use Cosmo.' + ' \n\nNote, Chrome/Chromium currently reports "Unknown exception during compilation.". To work around this problem, enable the debug console (Ctrl+Shift+i) and reload.');
 }
 

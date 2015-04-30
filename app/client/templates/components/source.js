@@ -59,13 +59,9 @@ Template['components_source'].events({
     */
     
     'click #refresh': function(){
-        console.log('cool!');
         Session.set('refresh', true);          
         Cosmo.editorObject.setValue(Cosmo.editorObject.getValue() + ' ');
         Session.set('refresh', false);
-        //Cosmo.editorObject.blur();
-        //console.log(Cosmo.editorObject.selection.getCursor());
-        //console.log(Cosmo.editorObject);s
     },
     
     /**
