@@ -11,11 +11,7 @@ The accounts template
 @constructor
 */
 
-Template['components_source'].created = function(){    
-    Module['onRuntimeInitialized'] = function() {
-        Cosmo.runtimeInit = true;
-    };
-    
+Template['components_source'].created = function(){  
     var count = 0;
     this.runtimeInitInterval = Meteor.setInterval(function() {
         if(count >= 1)
@@ -26,6 +22,19 @@ Template['components_source'].created = function(){
             return;
         }
     }, 1 * 2000);
+};
+
+Template['components_source'].rendered = function(){
+    $.when(
+    $.getScript( "/soljson.js" ),
+    $.Deferred(function( deferred ){
+        $( deferred.resolve );
+    })
+    ).done(function(){
+        Module['onRuntimeInitialized'] = function() {
+            Cosmo.runtimeInit = true;
+        };
+    });  
 };
 
 Template['components_source'].helpers({

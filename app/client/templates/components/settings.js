@@ -17,7 +17,22 @@ Template['components_settings'].created = function(){
 Template['components_settings'].helpers({
 });
 
-Template['components_settings'].events({   
+Template['components_settings'].events({
+    
+    /**
+    On the change of rpc provider. 
+
+    @event (keyup #rpcProvider)
+    */
+    
+    'keyup #rpcProvider': function(){   
+        var rpcProvider = String($('#rpcProvider').val());
+        var rpcProviderParsed = rpcProvider.replace(/.*?:\/\//g, ""); // remove http://
+        var providerData = rpcProviderParsed.split(":");        
+        Session.set('providerHost', ((providerData.length >= 1) ? providerData[0] : ""));
+        Session.set('providerPort', ((providerData.length >= 2) ? providerData[1] : ""));
+    },
+    
     /**
     Attempt connecting.
 
@@ -26,7 +41,7 @@ Template['components_settings'].events({
     
     'click #connect': function(){        
         try{
-            var rpcProvider = String($('#rpcProvider').val());
+            var rpcProvider = String($('#rpcProvider').val());     
             web3.setProvider(new web3.providers.HttpProvider(rpcProvider));
             web3.reset();            
             var testGas = web3.eth.gasPrice; 

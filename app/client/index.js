@@ -30,6 +30,8 @@ if (Meteor.isClient) {
     Session.setDefault("auto", true);
     Session.setDefault("method", {callable: false});
     Session.setDefault("consoleData", "");
+    Session.setDefault("providerHost", "localhost");
+    Session.setDefault("providerPort", "8080");
     Session.setDefault("account", 0);
     Session.setDefault("contractAddress", "");
     Session.setDefault("contractName", "");
@@ -37,7 +39,7 @@ if (Meteor.isClient) {
     Session.setDefault("contractMethods", []);
     Session.setDefault("contractBalance", 0);
 	Session.setDefault('contractBytes', 0);
-    Cosmo.output('If your using Firefox, you must be connected to a geth node in order to use Cosmo.' + ' \n\nNote, Chrome/Chromium currently reports "Unknown exception during compilation.". To work around this problem, enable the debug console (Ctrl+Shift+i) and reload.');
+    Cosmo.output('Loading compiler... this may take a moment.');
 }
 
 

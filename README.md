@@ -3,7 +3,11 @@ A MeteorJS realtime solidity development environment DApp.
 
 <img src="app/public/images/screen.jpg" />
 
-** Please note that this DApp is still in Alpha (still working out the bugs). Compiler upgrade coming soon!
+** Please note that this DApp is still in Alpha (still working out the bugs).
+
+## <a name="hosted"></a> Alpha
+
+http://meteor-dapp-cosmo.meteor.com/
 
 ## <a name="installation"></a> Installation
 
@@ -42,5 +46,4 @@ Cosmo uses Chriseth's <a href="http://chriseth.github.io/cpp-ethereum/">Realtime
 
 ## <a name="todo"></a> TODO
 - Better i18n
-- Allow DApp to boot even without no GETH connection
-- Deploy on meteor.com
+- Event Handling/Testing Interface
