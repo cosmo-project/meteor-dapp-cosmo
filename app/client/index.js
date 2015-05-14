@@ -14,6 +14,7 @@ if (Meteor.isClient) {
 	Session.setDefault('connected', false);
 	Session.setDefault('balance', 0);
 	Session.setDefault('blockNumber', 0);
+    Session.setDefault("booted", false);
     Session.setDefault("output", "");
     Session.setDefault("web3", {
         coinbase: '0x0',
@@ -21,6 +22,7 @@ if (Meteor.isClient) {
         peerCount: 0,
         accounts: [],
         gasPrice: 0,
+        gasPriceRaw: 10000000000000,
         version: 'unknown',
         client: 'unknown',
         mining: false

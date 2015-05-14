@@ -94,16 +94,16 @@ Template['components_source'].events({
         var gasValue = parseInt($('#deployGas').val());
         var contractAbi = Session.get('contractAbi');
         var contractHex = Session.get('hex');
-        var transactionOptions = {from: web3.eth.accounts[0], data: contractHex};
+        var transactionOptions = {from: Cosmo.web3().accounts[0], data: contractHex};
         
         if(gasValue == 0 || _.isUndefined(gasValue) || _.isEmpty(gasValue)) {
             transactionOptions.gas = 1800000;
-            transactionOptions.gasPrice = web3.eth.gasPrice;
+            transactionOptions.gasPrice = Cosmo.web3().gasPriceRaw.toString(10);
         }
         
         if(gasValue > 0) {
             transactionOptions.gas = gasValue;
-            transactionOptions.gasPrice = web3.eth.gasPrice;
+            transactionOptions.gasPrice = Cosmo.web3().gasPriceRaw.toString(10);
         }
             
         if(!_.isArray(contractAbi) || contractAbi.length == 0)
@@ -112,7 +112,13 @@ Template['components_source'].events({
         if(contractHex.length == 0)
             return;
         
-        var address = Cosmo.deploy(contractAbi, transactionOptions);        
-        Session.set('contractAddress', address);
+        console.log(contractAbi, transactionOptions);
+        
+        Cosmo.deploy(contractAbi, transactionOptions, function(err, address) {
+            if(!err)
+                Session.set('contractAddress', address);
+            else
+                Session.set('consoleData', Session.get('consoleData') + '\n' + String(err));
+        });        
     },
 });

@@ -92,7 +92,7 @@ Template['components_methods'].events({
         var call = "";
 
         if(from == "")
-            from = web3.eth.accounts[0];
+            from = Cosmo.web3().accounts[0];
 
         if(gas == "" || gas == 0)
             gas = 900000;
@@ -108,16 +108,15 @@ Template['components_methods'].events({
         });
 
         if($('#method').val() == "blank") {
-            call = web3.eth.call({from: from, to: contractAddress, gas: gas, value: value, gasPrice: web3.eth.gasPrice});
+            call = web3.eth.call({from: from, to: contractAddress, gas: gas, value: value, gasPrice: Cosmo.web3().gasPriceRaw});
         }else{
-            call = Cosmo.contract.call({from: from, gas: gas, gasPrice: web3.eth.gasPrice})[methodObject.nameClean].apply(this, methodArguments);
+            call = Cosmo.contract.call({from: from, gas: gas, gasPrice: Cosmo.web3().gasPriceRaw})[methodObject.nameClean].apply(this, methodArguments);
         }
 
         if(_.isObject(call))
             call = call.toString(10);
 
-        Session.set('consoleData', String(consoleObject) + '\nCall -> ' + contractName + ' @ ' + contractAddress.substr(0, 5) + '.. ' + methodObject.nameClean + '(' + String(methodArguments) + ')' + ':' + "\n" + String(call));
-        $("#consolePre").scrollTop($("#consolePre")[0].scrollHeight + 20);
+        Cosmo.console('Call -> ' + contractName + ' @ ' + contractAddress.substr(0, 5) + '.. ' + methodObject.nameClean + '(' + String(methodArguments) + ')' + ':' + "\n" + String(call));
     },
     
     /**
@@ -146,12 +145,12 @@ Template['components_methods'].events({
         
         if(gas == 0 || _.isEmpty(gas) || gas == NaN) {
             transactionOptions.gas = 1800000;
-            transactionOptions.gasPrice = web3.eth.gasPrice;
+            transactionOptions.gasPrice = Cosmo.web3().gasPriceRaw;
         }
         
         if(gas > 0) {
             transactionOptions.gas = gas;
-            transactionOptions.gasPrice = web3.eth.gasPrice;
+            transactionOptions.gasPrice = Cosmo.web3().gasPriceRaw;
         }
         
         if(_.isEmpty(value)){
@@ -172,15 +171,23 @@ Template['components_methods'].events({
 
         if($('#method').val() == "blank") {
             transactionOptions.to = contractAddress;
-            transact = web3.eth.sendTransaction(transactionOptions);
+            transact = web3.eth.sendTransaction(transactionOptions, function(err, result){
+                if(!_.isEmpty(err))
+                    Cosmo.console(err);
+            });
         }else{
             
             console.log(Cosmo.contract);
             
-            transact = Cosmo.contract.sendTransaction(transactionOptions)[methodObject.nameClean].apply(this, methodArguments);
+            transact = Cosmo.contract.sendTransaction(transactionOptions, function(err, result){
+             if(!_.isEmpty(err))
+                Cosmo.console(err);
+            })[methodObject.nameClean].apply(this, methodArguments);
         }
+        
+        Cosmo.console('Tx -> ' + contractName + ' @ ' + contractAddress.substr(0, 5) + '.. ' + methodObject.nameClean + '(' + String(methodArguments) + ')');
 
-        Session.set('consoleData', String(consoleObject) + '\nTx -> ' + contractName + ' @ ' + contractAddress.substr(0, 5) + '.. ' + methodObject.nameClean + '(' + String(methodArguments) + ')');
-        $("#consolePre").scrollTop($("#consolePre")[0].scrollHeight + 20);
+        //Session.set('consoleData', String(consoleObject) + '\nTx -> ' + contractName + ' @ ' + contractAddress.substr(0, 5) + '.. ' + methodObject.nameClean + '(' + String(methodArguments) + ')');
+        
     }, 
 });

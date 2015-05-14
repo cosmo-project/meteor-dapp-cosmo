@@ -52,6 +52,7 @@ Template['components_settings'].events({
                 listening: web3.net.listening,
                 peerCount: web3.net.peerCount,
                 accounts: web3.eth.accounts,
+                gasPriceRaw: web3.eth.gasPrice.toNumber(10),
                 gasPrice: web3.fromWei(web3.eth.gasPrice.toNumber(10), LocalStore.get('etherUnit')).toString(10) + ' ' + String(LocalStore.get('etherUnit')).substr(0, 3),
                 version: web3.version.api,
                 client: web3.version.client,

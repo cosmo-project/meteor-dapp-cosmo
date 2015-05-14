@@ -16,12 +16,14 @@ Template['components_diagnostics'].created = function() {
         if(!Cosmo.isConnected())
             return;
             
-        var coinbase = web3.eth.coinbase;
-        var balance = web3.eth.getBalance(coinbase);
-        var blockNumber = web3.eth.blockNumber;
-
-        Session.set("balance", balance.toString(10));
-        Session.set("blockNumber", blockNumber);
+        //var blockNumber = web3.eth.blockNumber;
+        //Session.set("blockNumber", blockNumber);
+        
+        web3.eth.getBalance(Cosmo.web3().coinbase, function(err, result){
+            var balance = result;
+            var originalBalance = web3.toDecimal(balance);
+            Session.set("balance", balance.toString(10));
+        });
     }, 1 * 10000);
 };
 
