@@ -39,8 +39,8 @@
                         {{#if isBool}}
                         <select id="input_{{name}}" class="form-control">
                             <option value="0">{{name}}</option>          
-                            <option value="0">true</option>          
-                            <option value="1">false</option>                
+                            <option value="1">true</option>          
+                            <option value="2">false</option>                
                         </select><br />
                         {{else}}
                             {{#if isInt}}
@@ -56,7 +56,6 @@
                     {{/each}}                
                 {{/if}}
             {{/with}}
-            <hr />
             <button class="btn btn-default btn-sm" style="margin-left: 10px;" id="methodTransact">Transact <i class="glyphicon glyphicon-download-alt text-success"></i></button>
             <button class="btn btn-default btn-sm text-info" id="methodCall">Call <i class="glyphicon glyphicon-earphone"></i></button>
         </div>

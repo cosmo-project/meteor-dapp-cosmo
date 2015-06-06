@@ -1,0 +1,66 @@
+<template name="components_events">
+    <div class="panel panel-default panel-dapp panel-methods" style="margin-bottom: 100px;">
+        <div class="panel-heading">Events</div>
+        <div class="panel-body">  
+            <select id="event" class="selectpicker form-control">
+                {{#unless $.Session.get 'contractEvents'}}
+                    <option>Event</option>
+                {{/unless}}
+                {{#each $.Session.get 'contractEvents'}}
+                    <option value="{{name}}">{{name}}</option>
+                {{/each}}
+            </select><br />
+            
+            {{#with $.Session.get 'event'}}
+                {{#each inputs}}
+                    {{#if isText}}
+                        <input type="text" id="eInput_{{name}}" class="form-control" placeholder="{{name}}{{#if indexed}}*{{/if}}" /><br />
+                    {{/if}}
+                    {{#if isNumber}}
+                        <input type="number" id="eInput_{{name}}" class="form-control" placeholder="{{name}}{{#if indexed}}*{{/if}}" /><br />
+                    {{/if}}
+                    {{#if isBool}}
+                        <select id="eInput_{{name}}" class="form-control">
+                            <option value="0">{{name}}{{#if indexed}}*{{/if}}</option>          
+                            <option value="1">true</option>          
+                            <option value="0">false</option>                
+                        </select><br />
+                    {{/if}}
+                {{/each}}
+            {{/with}}
+            
+            {{#if $.Session.get 'isListening'}}
+            <button class="btn btn-default btn-sm" style="margin-left: 10px;" id="eventListen">Stop Listening <i class="glyphicon glyphicon-remove text-success"></i></button>
+            {{else}}
+            <button class="btn btn-default btn-sm" style="margin-left: 10px;" id="eventListen">Listen <i class="glyphicon glyphicon-headphones text-success"></i></button>
+            {{/if}}
+        </div>
+    </div>
+</template>
+
+<!--
+
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "name": "to",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "name": "value",
+        "type": "uint256"
+      }
+    ],
+    "name": "Send",
+    "type": "event"
+  }
+
+-->

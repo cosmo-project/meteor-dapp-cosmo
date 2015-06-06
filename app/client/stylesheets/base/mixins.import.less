@@ -275,8 +275,49 @@
     }
 }
 
+
+.contract-buttons {
+    display: block; 
+    
+    height: 30px;
+    
+    width: 550px;
+    
+    position: absolute; 
+    
+    top: 80px; 
+    
+    left: -285px;
+    
+    .clearfix();
+    
+    -ms-transform: rotate(-90deg); /* IE 9 */
+    
+    -webkit-transform: rotate(-90deg); /* Chrome, Safari, Opera */
+    
+    transform: rotate(-90deg);
+    
+    .btn {
+        //transform-origin: left top 0; 
+        
+        //transform: rotate(-90deg); 
+        
+        font-size: 11px;
+        
+        border-bottom: none;
+        
+        text-transform: none;
+        
+        padding: 4px;
+    
+        .clearfix();
+        
+        display: inline-block;
+    }
+}
+
 .panel-settings {
-    input {
+    /*input {
         background: none;
         border: none;
         text-overflow: ellipsis;
@@ -288,6 +329,10 @@
         line-height: 12px;
         box-shadow: none;
         height: 14px;
+    }*/
+    
+    input {
+        display: inline-block;
     }
 }
 

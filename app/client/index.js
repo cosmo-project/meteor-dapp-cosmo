@@ -39,9 +39,13 @@ if (Meteor.isClient) {
     Session.setDefault("contractName", "");
     Session.setDefault("contractAbi", []);
     Session.setDefault("contractMethods", []);
+    Session.setDefault("contractEvents", []);
     Session.setDefault("contractBalance", 0);
 	Session.setDefault('contractBytes', 0);
+    Session.setDefault('isListening', false)
     Cosmo.output('Loading compiler... this may take a moment.');
+    
+    debugger;
 }
 
 

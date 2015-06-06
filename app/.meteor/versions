@@ -18,7 +18,7 @@ deps@1.0.7
 ejson@1.0.6
 ethereum:elements@0.1.1
 ethereum:tools@0.0.7
-ethereum:web3@0.2.8
+ethereum:web3@0.5.0
 fastclick@1.0.3
 frozeman:animation-helper@0.2.6
 frozeman:persistent-minimongo@0.1.3

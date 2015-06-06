@@ -95,13 +95,12 @@ Deploy the contract live on the blockchain.
 
 Cosmo.deploy = function(contractAbi, transactionOptions, callback){
     this.ContractObject = web3.eth.contract(contractAbi);        
-    web3.eth.sendTransaction(transactionOptions, function(err, result){ 
+    this.ContractObject.new(transactionOptions, function(err, contract){ 
         if(!err) {
-            Cosmo.address = result;
-            Cosmo.contract = new Cosmo.ContractObject(Cosmo.address);
-
+            Cosmo.address = contract.address;
+            Cosmo.contract = Cosmo.ContractObject.at(Cosmo.address);
         }
-        callback(err, result);
+        callback(err, contract);
     });
 };
 
@@ -157,6 +156,7 @@ Cosmo.renderContracts = function(data, source) {
     var contractName = craw_4[0].trim();
     var contract = data.contracts[contractName];
     var contractMethods;
+    var contractEvents = [];
     
     if(_.isUndefined(contract) || _.isEmpty(contractName))
         return;
@@ -181,6 +181,8 @@ Cosmo.renderContracts = function(data, source) {
     
     if(!_.isArray(contractMethods))
         return;
+    
+    
 
     _.each(contractMethods, function(item, index){
         item.index = index;
@@ -258,7 +260,39 @@ Cosmo.renderContracts = function(data, source) {
 
     Session.set('contractMethods', contractMethods);
     var selectedMethod = Session.get('method');
+    
+    
+    _.each(JSON.parse(contract.interface), function(item, index){
+        if(item.type != "event")
+            return;
 
+        _.each(item.inputs, function(input, index){
+            if(_.isUndefined(item.type))
+                return;
+            
+            if(input.type.indexOf("string") !== -1 
+              || input.type.indexOf("byte") !== -1
+              || input.type.indexOf("hash") !== -1
+              || input.type.indexOf("address") !== -1)
+                input.isText = true;
+
+            if(input.type.indexOf("int") !== -1)
+                input.isNumber = true;
+
+            if(input.type.indexOf("bool") !== -1)
+                input.isBool = true;
+        });
+        
+        contractEvents.push(item);
+    });
+    
+    Session.set('contractEvents', contractEvents);
+    Session.set('event', {});
+    
+    if(contractEvents.length > 0)
+        Session.set('event', contractEvents[0]);
+    
+    
     if(!_.isEmpty(selectedMethod))
         Session.set('method', contractMethods[selectedMethod.index]);
     
@@ -280,6 +314,8 @@ Cosmo.onAceUpdate = function(e) {
     var editor = Cosmo.editorObject;
     var input = editor.getValue();
     var data;
+    
+    LocalStore.set('contractStore', input);
         
     if(!Session.get('auto') && !Session.get('refresh'))
         return;

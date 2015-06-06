@@ -1,5 +1,5 @@
 <template name="components_source">
-    <div class="panel panel-default panel-dapp panel-source">
+    <div class="panel panel-default panel-dapp panel-source" style="position: relative;">
         <div class="panel-heading">Source 
             <span>
                 <input type="text" placeholder="gas _" id="deployGas" />
@@ -13,6 +13,41 @@
             </span> 
             <div class="clear"></div>
         </div>
+        <div class="contract-buttons">            
+            <button class="btn btn-default" id="contractBallot">
+                Ballot
+            </button>
+            
+            <button class="btn btn-default" id="contractSimpleStore">
+                SimpleStore
+            </button>
+            
+            <button class="btn btn-default" id="contractNameReg">
+                NameReg
+            </button>
+            
+            <button class="btn btn-default" id="contractCoin">
+                Coin
+            </button>
+            
+            <button class="btn btn-default" id="contractCrowdfunding">
+                CrowdFunding
+            </button>
+        </div>
+        
+        
+        <!--<button style="display: block; padding: 3px; font-size: 11px; cursor: pointer; position: absolute; top: 110px; left: -23px; transform: rotate(-90deg); transform-origin: left top 0; background: #F1F1F1; border: 1px solid #ddd;" id="contractNameReg">
+            NameReg
+        </button>
+        <button style="display: block; padding: 3px; font-size: 11px; cursor: pointer; position: absolute; top: 145px; left: -23px; transform: rotate(-90deg); transform-origin: left top 0; background: #F1F1F1; border: 1px solid #ddd;" id="contractCoin">
+            Coin
+        </button>
+        <button style="display: block; padding: 3px; font-size: 11px; cursor: pointer; position: absolute; top: 235px; left: -23px; transform: rotate(-90deg); transform-origin: left top 0; background: #F1F1F1; border: 1px solid #ddd;" id="contractCrowdfunding">
+            CrowdFunding
+        </button>
+        <button style="display: block; padding: 3px; font-size: 11px; cursor: pointer; position: absolute; top: 275px; left: -23px; transform: rotate(-90deg); transform-origin: left top 0; background: #F1F1F1; border: 1px solid #ddd;" id="contractBallot">
+            Ballot
+        </button>-->
         {{> sharejsAce docid=document onRender=onAce onConnect=setMode id="editor"}}
     </div>
 </template>

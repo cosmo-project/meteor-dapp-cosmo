@@ -3,13 +3,16 @@
         <div class="panel-body">
             {{#if $.Session.equals 'contractName' ''}}{{else}}
                 <h4>{{$.Session.get 'contractName'}}
+            <small class=" text-muted" data-toggle="collapse" data-target="#contractDetails" style="float: right; margin-bottom: 3px; cursor: pointer;">details</small>
 </h4>
-            {{/if}}          
-            <input type="text" class="form-control" onfocus="this.select();" onmouseup="return false;" value="{{$.Session.get 'contractAddress'}}" placeholder="address" style="width: 49%; float: left; margin-right: 2%;" title="contract address">      
-            <input type="text" class="form-control" onfocus="this.select();" onmouseup="return false;" value="{{$.Session.get 'hex'}}" placeholder="bytecode" style="width: 49%; float: left; " title="contract bytecode">
-            <pre class="form-control" style="height: 60px; z-index:8000; margin-bottom: 10px; position: relative; white-space: pre-wrap; 
-white-space: -moz-pre-wrap;  white-space: -pre-wrap; white-space: -o-pre-wrap;  word-wrap: break-word; overflow-y:hidden; border: 1px solid rgb(204, 204, 204); text-size: 14px;" id="contractAbi"><small style="position: absolute; display: block; right: 10px; top: 7px; cursor: pointer; color: rgb(204, 204, 204); z-index: 10000; font-family: Arial;" id="cleanAbi">clean</small>{{{$.Session.get 'abi'}}}</pre>
-            <input type="text" class="form-control" onfocus="this.select();" onmouseup="return false;" value="{{$.Session.get 'contractInterface'}}" placeholder="solidity interface" title="contract solidity interface" id="contractInterface">
+            {{/if}}
+            <div id="contractDetails" class=" collapse in">
+                <input type="text" class="form-control" onfocus="this.select();" onmouseup="return false;" value="{{$.Session.get 'contractAddress'}}" placeholder="address" style="width: 49%; float: left; margin-right: 2%;" title="contract address">      
+                <input type="text" class="form-control" onfocus="this.select();" onmouseup="return false;" value="{{$.Session.get 'hex'}}" placeholder="bytecode" style="width: 49%; float: left; " title="contract bytecode">
+                <pre class="form-control" style="height: 60px; z-index:8000; margin-bottom: 10px; position: relative; white-space: pre-wrap; 
+    white-space: -moz-pre-wrap;  white-space: -pre-wrap; white-space: -o-pre-wrap;  word-wrap: break-word; overflow-y:hidden; border: 1px solid rgb(204, 204, 204); text-size: 14px;" id="contractAbi"><small style="position: absolute; display: block; right: 10px; top: 7px; cursor: pointer; color: rgb(204, 204, 204); z-index: 10000; font-family: Arial;" id="cleanAbi">clean</small>{{{$.Session.get 'abi'}}}</pre>
+                <input type="text" class="form-control" onfocus="this.select();" onmouseup="return false;" value="{{$.Session.get 'contractInterface'}}" placeholder="solidity interface" title="contract solidity interface" id="contractInterface">
+            </div>
             {{#if $.Session.equals 'contractAddress' ''}}
             {{else}}
             balance: <strong>{{$.Session.get 'contractBalance'}}</strong>  ethers

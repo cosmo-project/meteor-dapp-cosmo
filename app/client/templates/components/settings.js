@@ -11,7 +11,11 @@ The settings template
 @constructor
 */
 
-Template['components_settings'].created = function(){   
+Template['components_settings'].rendered = function(){
+    var rpcProvider = LocalStore.get('rpcProvider');
+    
+    if(!_.isEmpty(rpcProvider))
+        $('#rpcProvider').val(rpcProvider);
 };
 
 Template['components_settings'].helpers({
@@ -31,6 +35,8 @@ Template['components_settings'].events({
         var providerData = rpcProviderParsed.split(":");        
         Session.set('providerHost', ((providerData.length >= 1) ? providerData[0] : ""));
         Session.set('providerPort', ((providerData.length >= 2) ? providerData[1] : ""));
+        
+        LocalStore.set('rpcProvider', rpcProvider);
     },
     
     /**

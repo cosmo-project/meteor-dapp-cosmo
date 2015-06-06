@@ -106,17 +106,20 @@ Template['components_methods'].events({
             
             methodArguments.push(arg);
         });
+        
+        methodArguments.push({from: from, gas: gas, gasPrice: Cosmo.web3().gasPriceRaw});
+        methodArguments.push(function(err, result){
+            Cosmo.console('Call -> ' + contractName + ' @ ' + contractAddress.substr(0, 5) + '.. ' + methodObject.nameClean + '(' + String(methodArguments.slice(0, methodArguments.length - 2)) + ')' + ':' + "\n" + ' ' + String(result));
+        });
 
         if($('#method').val() == "blank") {
-            call = web3.eth.call({from: from, to: contractAddress, gas: gas, value: value, gasPrice: Cosmo.web3().gasPriceRaw});
+            web3.eth.call(methodArguments);
         }else{
-            call = Cosmo.contract.call({from: from, gas: gas, gasPrice: Cosmo.web3().gasPriceRaw})[methodObject.nameClean].apply(this, methodArguments);
+            call = Cosmo.contract[methodObject.nameClean].call.apply(this, methodArguments);
         }
 
         if(_.isObject(call))
             call = call.toString(10);
-
-        Cosmo.console('Call -> ' + contractName + ' @ ' + contractAddress.substr(0, 5) + '.. ' + methodObject.nameClean + '(' + String(methodArguments) + ')' + ':' + "\n" + String(call));
     },
     
     /**
@@ -176,16 +179,16 @@ Template['components_methods'].events({
                     Cosmo.console(err);
             });
         }else{
+            methodArguments.push(transactionOptions);
+            methodArguments.push(function(err, result){
+                if(!_.isEmpty(err))
+                    Cosmo.console(err);
+            });
             
-            console.log(Cosmo.contract);
-            
-            transact = Cosmo.contract.sendTransaction(transactionOptions, function(err, result){
-             if(!_.isEmpty(err))
-                Cosmo.console(err);
-            })[methodObject.nameClean].apply(this, methodArguments);
+            transact = Cosmo.contract[methodObject.nameClean].sendTransaction.apply(this, methodArguments);
         }
         
-        Cosmo.console('Tx -> ' + contractName + ' @ ' + contractAddress.substr(0, 5) + '.. ' + methodObject.nameClean + '(' + String(methodArguments) + ')');
+        Cosmo.console('Tx -> ' + contractName + ' @ ' + contractAddress.substr(0, 5) + '.. ' + methodObject.nameClean + '(' + String(methodArguments.slice(0, methodArguments.length - 2)) + ')');
 
         //Session.set('consoleData', String(consoleObject) + '\nTx -> ' + contractName + ' @ ' + contractAddress.substr(0, 5) + '.. ' + methodObject.nameClean + '(' + String(methodArguments) + ')');
         
