@@ -32,7 +32,11 @@ Template['components_source'].rendered = function(){
     })
     ).done(function(){
         Module['onRuntimeInitialized'] = function() {
-            Cosmo.runtimeInit = true;
+            Cosmo.runtimeInit = true;            
+            
+            Session.set('refresh', true);          
+            Cosmo.editorObject.setValue(Cosmo.editorObject.getValue() + ' ');
+            Session.set('refresh', false);
         };
     });  
 };
@@ -100,7 +104,7 @@ Template['components_source'].events({
     
     'click #contractNameReg': function(){
         Session.set('refresh', true);
-        var contractData = '\/\/sol NameReg\n\/\/ Simple global name registrar.\n\/\/ @authors:\n\/\/   Gav Wood <g@ethdev.com>\n\ncontract NameRegister {\n\tfunction getAddress(bytes32 _name) constant returns (address o_owner) {}\n\tfunction getName(address _owner) constant returns (bytes32 o_name) {}\n}\n\nimport \"service\";\nimport \"owned\";\n\ncontract NameReg is service(1), owned, NameRegister {\n  \tevent AddressRegistered(address indexed account);\n  \tevent AddressDeregistered(address indexed account);\n\n\tfunction register(bytes32 name) {\n\t\t\/\/ Don\'t allow the same name to be overwritten.\n\t\tif (toAddress[name] != address(0))\n\t\t\treturn;\n\t\t\/\/ Unregister previous name if there was one.\n\t\tif (toName[msg.sender] != \"\")\n\t\t\ttoAddress[toName[msg.sender]] = 0;\n\t\t\t\n\t\ttoName[msg.sender] = name;\n\t\ttoAddress[name] = msg.sender;\n\t\tAddressRegistered(msg.sender);\n\t}\n\n\tfunction unregister() {\n\t\tbytes32 n = toName[msg.sender];\n\t\tif (n == \"\")\n\t\t\treturn;\n\t\tAddressDeregistered(toAddress[n]);\n\t\ttoName[msg.sender] = \"\";\n\t\ttoAddress[n] = address(0);\n\t}\n\n\tfunction addressOf(bytes32 name) constant returns (address addr) {\n\t\treturn toAddress[name];\n\t}\n\n\tfunction nameOf(address addr) constant returns (bytes32 name) {\n\t\treturn toName[addr];\n\t}\n\t\n\tmapping (address => bytes32) toName;\n\tmapping (bytes32 => address) toAddress;\n}\n   ';
+        var contractData = '\/\/sol NameReg\n\/\/ Simple global name registrar.\n\/\/ @authors:\n\/\/   Gav Wood <g@ethdev.com>\n\ncontract NameRegister {\n\tfunction getAddress(string32 _name) constant returns (address o_owner) {}\n\tfunction getName(address _owner) constant returns (string32 o_name) {}\n}\n\nimport \"service\";\nimport \"owned\";\n\ncontract NameReg is service(1), owned, NameRegister {\n  \tevent AddressRegistered(address indexed account);\n  \tevent AddressDeregistered(address indexed account);\n\n\tfunction register(string32 name) {\n\t\t\/\/ Don\'t allow the same name to be overwritten.\n\t\tif (toAddress[name] != address(0))\n\t\t\treturn;\n\t\t\/\/ Unregister previous name if there was one.\n\t\tif (toName[msg.sender] != \"\")\n\t\t\ttoAddress[toName[msg.sender]] = 0;\n\t\t\t\n\t\ttoName[msg.sender] = name;\n\t\ttoAddress[name] = msg.sender;\n\t\tAddressRegistered(msg.sender);\n\t}\n\n\tfunction unregister() {\n\t\tstring32 n = toName[msg.sender];\n\t\tif (n == \"\")\n\t\t\treturn;\n\t\tAddressDeregistered(toAddress[n]);\n\t\ttoName[msg.sender] = \"\";\n\t\ttoAddress[n] = address(0);\n\t}\n\n\tfunction addressOf(string32 name) constant returns (address addr) {\n\t\treturn toAddress[name];\n\t}\n\n\tfunction nameOf(address addr) constant returns (string32 name) {\n\t\treturn toName[addr];\n\t}\n\t\n\tmapping (address => string32) toName;\n\tmapping (string32 => address) toAddress;\n}\n   ';
        
         Cosmo.editorObject.setValue(contractData);
         Session.set('refresh', false);
@@ -162,6 +166,8 @@ Template['components_source'].events({
     */
     
     'click #deploy': function(){
+        Session.set('isListening', false);
+        Cosmo.console('Your contract is being deployed. This may take a minute...');
         var gasValue = parseInt($('#deployGas').val());
         var contractAbi = Session.get('contractAbi');
         var contractHex = Session.get('hex');
@@ -169,7 +175,9 @@ Template['components_source'].events({
         
         if(gasValue == 0 || _.isUndefined(gasValue) || _.isEmpty(gasValue)) {
             transactionOptions.gas = 1800000;
-            transactionOptions.gasPrice = Cosmo.web3().gasPriceRaw.toString(10);
+            transactionOptions.gasPrice = Cosmo.web3()
+                .gasPriceRaw
+                .toString(10);
         }
         
         if(gasValue > 0) {
@@ -183,12 +191,15 @@ Template['components_source'].events({
         if(contractHex.length == 0)
             return;
         
-        Cosmo.deploy(contractAbi, transactionOptions, function(err, contract) {
+        Cosmo.deploy(contractAbi, transactionOptions, function(err, contract, mined) {
             if(!err) {
                 Session.set('contractAddress', contract.address);
                 Cosmo.console('Contract deploying at ' + String(contract.address));
+                
+                if(mined)
+                    Cosmo.console('Contract deployed at ' + String(contract.address));
             } else {
-                Session.set('consoleData', Session.get('consoleData') + '\n' + String(err));
+                Session.set('consoleData', Session.get('consoleData') + '\n' + String(err));                
             }
         });        
     },

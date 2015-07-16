@@ -86,9 +86,13 @@ Template['components_events'].events({
             return;
         
         if(Session.get('isListening')) {
-            filter.stopWatching();
-            Cosmo.console('Stopped Listening -> ' + contractName + ' @ ' + contractAddress.substr(0, 5) + '.. ' + selectedEvent.name + ' ' + JSON.stringify(eventParams));
-            Session.set('isListening', false);
+            try {
+                filter.stopWatching();
+                Cosmo.console('Stopped Listening -> ' + contractName + ' @ ' + contractAddress.substr(0, 5) + '.. ' + selectedEvent.name + ' ' + JSON.stringify(eventParams));
+                Session.set('isListening', false);
+            }catch(e){
+                Session.set('isListening', false);
+            }
             return;
         }
         

@@ -105,11 +105,33 @@ Template['components_methods'].events({
             var arg = $('#input_' + argumentRaw.name).val();
             
             methodArguments.push(arg);
-        });
+        });        
         
         methodArguments.push({from: from, gas: gas, gasPrice: Cosmo.web3().gasPriceRaw});
         methodArguments.push(function(err, result){
-            Cosmo.console('Call -> ' + contractName + ' @ ' + contractAddress.substr(0, 5) + '.. ' + methodObject.nameClean + '(' + String(methodArguments.slice(0, methodArguments.length - 2)) + ')' + ':' + "\n" + ' ' + String(result));
+            var resultArray = result;
+            
+            // THIS IS THE WORKING POINT
+            if(methodObject.outputs.length > 1) {
+                _.each(result, function(item, itemIndex){
+                    if(methodObject.outputs[itemIndex].type == 'bytes32')
+                        resultArray[itemIndex] = String(web3.toAscii(resultArray[itemIndex]));
+                });
+            }
+            
+            console.log(resultArray);
+            
+            Cosmo.console('Call -> ' 
+                          + contractName 
+                          + ' @ ' 
+                          + contractAddress.substr(0, 5) 
+                          + '.. ' 
+                          + methodObject.nameClean 
+                          + '(' 
+                          + String(methodArguments.slice(0, methodArguments.length - 2)) + ')' 
+                          + ':'
+                          + "\n" + ' ' 
+                          + String(resultArray));
         });
 
         if($('#method').val() == "blank") {

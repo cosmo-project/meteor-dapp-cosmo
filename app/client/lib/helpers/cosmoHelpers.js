@@ -94,13 +94,37 @@ Deploy the contract live on the blockchain.
 **/
 
 Cosmo.deploy = function(contractAbi, transactionOptions, callback){
-    this.ContractObject = web3.eth.contract(contractAbi);        
+    this.ContractObject = web3.eth.contract(contractAbi); 
+        
+    // Set coinbase as the default account
+    web3.eth.defaultAccount = web3.eth.coinbase;  
+        
+    // Watch Filter
+    watch = web3.eth.filter('latest');
+    
     this.ContractObject.new(transactionOptions, function(err, contract){ 
+        var mined = false;
+        
         if(!err) {
             Cosmo.address = contract.address;
             Cosmo.contract = Cosmo.ContractObject.at(Cosmo.address);
-        }
-        callback(err, contract);
+            
+            watch.watch(function (err, hash) {
+                var block = web3.eth.getBlock(hash, true); 
+                mined = block.transactions.reduce(function (mined, th) {
+                    // TODO: compiled code do not have 0x prefix
+                    return mined || (th.from === web3.eth.defaultAccount && th.input.indexOf(transactionOptions.data) !== -1);
+                }, false);
+                
+                if(!mined)
+                    return;
+                
+                callback(err, contract, mined);
+                watch.stopWatching();
+            });
+        }        
+        
+        callback(err, contract, mined);
     });
 };
 

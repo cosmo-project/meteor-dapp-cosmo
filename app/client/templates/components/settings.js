@@ -65,6 +65,12 @@ Template['components_settings'].events({
                 mining: web3.eth.mining
             });
             
+            web3.eth.getAccounts(function(err, accounts){
+                _.each(accounts, function(account, accountIndex){
+                    Accounts.upsert({address: account}, {address: account, number: accountIndex});
+                });
+            });
+            
             var coinbase = web3.eth.coinbase;
             var balance = web3.eth.getBalance(coinbase);
             var blockNumber = web3.eth.blockNumber;
