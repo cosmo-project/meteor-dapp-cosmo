@@ -7,7 +7,7 @@
         <button class="btn btn-default btn-sm" style="margin-top: 10px;" id="connect">Connect <i class="glyphicon glyphicon-off text-info"></i></button>
         <button class="btn btn-default btn-sm" style="margin-top: 10px;" data-toggle="collapse" data-target="#recommendedSettings">GETH Settings</button>
         
-        <pre style="overflow: hidden; margin-bottom: 0px; margin-top: 10px;" id="recommendedSettings" class="collapse out">geth --rpc --rpcaddr="{{$.Session.get 'providerHost'}}" --mine --unlock=primary --rpcport="{{$.Session.get 'providerPort'}}" --rpccorsdomain="http://meteor-dapp-cosmo.meteor.com" --loglevel=5 --maxpeers=0</pre>
+        <pre style="overflow: hidden; margin-bottom: 0px; margin-top: 10px;" id="recommendedSettings" class="collapse out">geth --rpc --rpcaddr="{{$.Session.get 'providerHost'}}" --mine --unlock 0 --rpcport="{{$.Session.get 'providerPort'}}" --rpccorsdomain="http://meteor-dapp-cosmo.meteor.com" --maxpeers=0</pre>
         </div>
     </div>  
 </template>

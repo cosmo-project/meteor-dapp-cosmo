@@ -19,7 +19,7 @@ Clone this repo
 
 Start a local geth node:
 
-    $ geth --rpc --rpcaddr="localhost" --mine --unlock=primary --rpcport="8080" --rpccorsdomain="http://localhost:3000" --loglevel=5 --maxpeers=0
+    $ geth --rpc --rpcaddr="localhost" --mine --unlock 0 --rpcport="8080" --rpccorsdomain="http://localhost:3000" --maxpeers=0
 
 Start Cosmo using Meteor
 
