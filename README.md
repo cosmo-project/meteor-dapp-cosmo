@@ -5,6 +5,8 @@ A MeteorJS realtime solidity development environment DApp.
 
 ** Please note that this DApp is still in Alpha (still working out the bugs).
 
+[DEPRETIATED] -- please use and contribute too: https://github.com/cosmo-project/cosmo, currently under construction however.
+
 ## <a name="hosted"></a> Alpha
 
 http://meteor-dapp-cosmo.meteor.com/
